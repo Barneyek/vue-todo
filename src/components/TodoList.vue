@@ -1,8 +1,9 @@
 <template>
   <div>
-    <input type="text" class="todo-input" placeholder="What needs to be done..." v-model="newTodo">
+    <input type="text" class="todo-input" placeholder="What needs to be done..." v-model="newTodo"
+    @keyup.enter="addTodo" >
     <div v-for="todo in todos" :key="todo.id" class="todo-item">
-      {{ todo.title}}
+      {{ todo.title }}
     </div>
   </div>
 </template>
@@ -13,6 +14,7 @@
     data() {
       return {
         newTodo: '',
+        ifForTodo: 4,
         todos: [
           {
             'id': 1,
@@ -30,6 +32,22 @@
             'completed': false,
           },          
         ]
+      }
+    },
+    methods:{
+      addTodo(){
+        if (this.newTodo.trim().length==0){
+          return 
+        }
+
+        this.todos.push({
+          id:  this.idForTodo,
+          title: this.newTodo,
+          completed: false,
+        })
+
+       this.newTodo= '',
+       this.idForTodo++
       }
     }
   }
