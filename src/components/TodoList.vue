@@ -1,33 +1,18 @@
 <template>
   <div>
-    <input 
-      type="text" 
-      class="todo-input" 
-      placeholder="What needs to be done..."
-      v-model="newTodo"
+    <input type="text" class="todo-input" placeholder="What needs to be done..." v-model="newTodo"
       @keyup.enter="addTodo">
-    <div 
-      v-for="(todo, index) in todos" 
-      :key="todo.id" 
-      class="todo-item">
+    <div v-for="(todo, index) in todos" :key="todo.id" class="todo-item">
       <div class="todo-item-left">
         <input type="checkbox" v-model="todo.completed">
-        <div 
-          v-if="!todo.editing"
-          @dblclick="editTodo(todo)"
-          class="todo-item-label"
+        <div v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label"
           :class="{ completed : todo.completed }">
           {{ todo.title }}
         </div>
-        <input 
-          v-else class="todo-item-edit" type="text" 
-          v-model="todo.title" 
-          @blur="doneEdit(todo)"
+        <input v-else class="todo-item-edit" type="text" v-model="todo.title" @blur="doneEdit(todo)"
           @keyup.esc="cancelEdit(todo)" v-focus>
       </div>
-      <div 
-        class="remove-item" 
-        @click="removeTodo(index)">
+      <div class="remove-item" @click="removeTodo(index)">
         &times;
       </div>
     </div>
@@ -65,6 +50,11 @@
             'editing': false,
           },
         ]
+      }
+    },
+    computed: {
+      remaining() {
+        return this.todos.filter(todo => !todo.completed).length
       }
     },
     directives: {
@@ -172,6 +162,35 @@
   .completed {
     text-decoration: line-through;
     color: grey;
+  }
+
+  .extra-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    justify-content: space-between;
+    font-size: 16px;
+    border-top: 1px solid lightgrey;
+    padding-top: 14px;
+    margin-bottom: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    background-color: white;
+    appearance: none;
+
+    &:hover {
+      background: lightgreen;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .active {
+    background: lightgreen;
   }
 
 </style>
