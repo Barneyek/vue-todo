@@ -2,7 +2,7 @@
   <div>
     <input type="text" class="todo-input" placeholder="What needs to be done..." v-model="newTodo"
       @keyup.enter="addTodo">
-    <div v-for="(todo, index) in todos" :key="todo.id" class="todo-item">
+    <div v-for="(todo, index) in todosFiltered" :key="todo.id" class="todo-item">
       <div class="todo-item-left">
         <input type="checkbox" v-model="todo.completed">
         <div v-if="!todo.editing" @dblclick="editTodo(todo)" class="todo-item-label"
@@ -20,6 +20,16 @@
       <div><label><input type="checkbox" :checked="!anyReamining" @change="checkAllTodos">Check All</label></div>
       <div>{{ remaining }} items left</div>
     </div>
+    <div class="extra-container">
+      <div>
+        <button :class="{ active: filter === 'all' }" @click="filter = 'all'">All</button>
+        <button :class="{ active: filter === 'active' }" @click="filter = 'active'">Active</button>
+        <button :class="{ active: filter === 'completed' }" @click="filter = 'completed'">Completed</button>
+      </div>
+      <div>
+        <button v-if="showClearCompletedButton" @click="clearCompleted">Clear completed</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -31,6 +41,7 @@
         newTodo: '',
         ifForTodo: 4,
         beforeEditCache: '',
+        filter: 'all',
         todos: [{
             'id': 1,
             'title': 'Finish Vue Screencast ',
@@ -56,8 +67,20 @@
       remaining() {
         return this.todos.filter(todo => !todo.completed).length
       },
-      anyReamining(){
+      anyReamining() {
         return this.remaining != 0
+      },
+      todosFiltered() {
+        if (this.filter === 'all') {
+          return this.todos
+        } else if (this.filter === 'active') {
+          return this.todos.filter(todo => !todo.completed)
+        } else if (this.filter === 'completed') {
+          return this.todos.filter(todo => todo.completed)
+        }
+      },
+      showClearCompletedButton() {
+        return this.todos.filter(todo => todo.completed).length > 0
       }
     },
     directives: {
@@ -104,8 +127,11 @@
         todo.editing = false
       },
 
-      checkAllTodos(){
+      checkAllTodos() {
         this.todos.forEach((todo) => todo.completed = event.target.checked)
+      },
+      clearCompleted() {
+        this.todos = this.todos.filter(todo => !todo.completed)
       }
     }
   }
