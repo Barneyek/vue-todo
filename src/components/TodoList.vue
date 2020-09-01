@@ -86,22 +86,16 @@ export default {
   },
   computed: {
     remaining() {
-      return this.$store.state.todos.filter(todo => !todo.completed).length
+      return this.$store.getters.remaining
     },
     anyReamining() {
-      return this.remaining != 0
+      return this.$store.getters.anyRemaining
     },
     todosFiltered() {
-      if (this.$store.state.filter === 'all') {
-        return this.$store.state.todos
-      } else if (this.$store.state.filter === 'active') {
-        return this.$store.state.todos.filter(todo => !todo.completed)
-      } else if (this.$store.state.filter === 'completed') {
-        return this.$store.state.todos.filter(todo => todo.completed)
-      }
+      return this.$store.getters.todosFiltered
     },
     showClearCompletedButton() {
-      return this.$store.state.todos.filter(todo => todo.completed).length > 0
+      return this.$store.getters.showClearCompletedButton
     }
   },
   methods: {
@@ -134,6 +128,8 @@ export default {
     },
 
     finishedEdit(data) {
+      // const index = this.$store.state.todos.findIndex(item=>git s item.id === data.id);
+      // this.$store.state.todos.splice(index, 1, data);
       this.$store.state.todos.splice(data.index, 1, data.todo);
     }
   }
@@ -236,6 +232,7 @@ button {
   transition: opacity .2s;
   animation-duration: 0.6s;
 }
+
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
