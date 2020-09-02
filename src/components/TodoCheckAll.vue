@@ -9,18 +9,18 @@
     </label>
   </div>
 </template>
+
 <script>
 export default {
   name: 'todo-check-all',
-  props: {
-    anyReamining: {
-      type: Boolean,
-      required: true,
+  computed: {
+    anyReamining() {
+      return this.$store.getters.anyReamining
     }
   },
   methods: {
     allChecked() {
-      eventBus.$emit('checkAllChanged', this.anyReamining);
+      this.$store.dispatch('checkAll',  event.target.checked)
     }
   }
 }
