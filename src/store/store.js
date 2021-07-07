@@ -7,19 +7,19 @@ export const store = new Vuex.Store({
   state: {
     todos: [{
       'id': 1,
-      'title': 'Finish Vue Screencast ',
+      'title': 'Zadanie do zrobienia 1',
       'completed': false,
       'editing': false,
     },
       {
         'id': 2,
-        'title': 'Take over world',
+        'title': 'Zadanie do zrobienia 2',
         'completed': false,
         'editing': false,
       },
       {
         'id': 3,
-        'title': 'Elo ',
+        'title': 'Zadanie do zrobienia 3 ',
         'completed': false,
         'editing': false,
       },
